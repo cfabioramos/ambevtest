@@ -5,6 +5,7 @@ import com.ambev.test.order.dto.OrderExternalPostDTO;
 import com.ambev.test.order.errorHandling.ItemNotFoundException;
 import com.ambev.test.order.model.OrderExternal;
 import com.ambev.test.order.model.Supplier;
+import com.ambev.test.order.repository.OrderExtProductsRepository;
 import com.ambev.test.order.repository.OrderExternalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,28 @@ public class OrderExternalService {
     @Autowired
     private OrderExternalRepository repository;
 
+    @Autowired
+    private OrderExtProductsRepository orderExtProductsRepository;
+
     public OrderExternal findById(Long id) {
         return this.repository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(id));
     }
 
     public Long save(OrderExternalPostDTO dto) {
-        return this.repository.save(dto.toModel()).getId();
+        OrderExternal modelToSave = dto.toModel();
+
+        OrderExternal modelSaved = this.repository.save(dto.toModel());
+
+        modelToSave.getOrderExtProducts()
+                .forEach(productToSave ->
+                    {
+                        productToSave.setOrderExt(modelSaved);
+                        orderExtProductsRepository.save(productToSave);
+                    });
+
+
+        return modelSaved.getId();
     }
 
     public Set<OrderExternalGetDTO> findBySupplier(Long supplierId) {
