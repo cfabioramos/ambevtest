@@ -20,7 +20,7 @@ public class OrderController {
     private OrderExternalService service;
 
     @GetMapping("/{id}")
-    public void block(@PathVariable Integer id) throws InterruptedException {
+    public void test(@PathVariable Integer id) throws InterruptedException {
         log.info("Id Number {}", id);
     }
 

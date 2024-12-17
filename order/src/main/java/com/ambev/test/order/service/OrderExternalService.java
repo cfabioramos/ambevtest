@@ -24,7 +24,7 @@ public class OrderExternalService {
     }
 
     public Long save(OrderExternalPostDTO dto) {
-        return this.repository.save(dto.getEntity()).getId();
+        return this.repository.save(dto.toModel()).getId();
     }
 
     public Set<OrderExternalGetDTO> findBySupplier(Long supplierId) {

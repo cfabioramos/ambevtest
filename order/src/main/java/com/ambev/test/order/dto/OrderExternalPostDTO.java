@@ -38,7 +38,7 @@ public class OrderExternalPostDTO {
         this.productPostDTOS = productPostDTOS;
     }
 
-    public OrderExternal getEntity() {
+    public OrderExternal toModel() {
         return new OrderExternal(
                         this.description,
                         this.supplierPostDTO.getId(),
