@@ -1,14 +1,12 @@
 package com.ambev.test.order.controller;
 
-import com.ambev.test.order.dto.OrderExternalDTO;
+import com.ambev.test.order.dto.OrderExternalGetDTO;
+import com.ambev.test.order.dto.OrderExternalPostDTO;
 import com.ambev.test.order.service.OrderExternalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -26,8 +24,14 @@ public class OrderController {
         log.info("Id Number {}", id);
     }
 
+    @PostMapping
+    public Long save(@RequestBody OrderExternalPostDTO dto) throws InterruptedException {
+        log.info("Order to save {}", dto.toString());
+        return service.save(dto);
+    }
+
     @GetMapping("/supplier/{supplierId}")
-    public Set<OrderExternalDTO> fetchFromSupplier(@PathVariable Long supplierId) throws InterruptedException {
+    public Set<OrderExternalGetDTO> fetchFromSupplier(@PathVariable Long supplierId) throws InterruptedException {
         log.info("SupplierId {} to fetch data", supplierId);
         return service.findBySupplier(supplierId);
     }

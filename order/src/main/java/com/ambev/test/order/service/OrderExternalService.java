@@ -1,6 +1,7 @@
 package com.ambev.test.order.service;
 
-import com.ambev.test.order.dto.OrderExternalDTO;
+import com.ambev.test.order.dto.OrderExternalGetDTO;
+import com.ambev.test.order.dto.OrderExternalPostDTO;
 import com.ambev.test.order.errorHandling.ItemNotFoundException;
 import com.ambev.test.order.model.OrderExternal;
 import com.ambev.test.order.model.Supplier;
@@ -22,13 +23,13 @@ public class OrderExternalService {
                 .orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-    public Long save(OrderExternal externalOrder) {
-        return this.repository.save(externalOrder).getId();
+    public Long save(OrderExternalPostDTO dto) {
+        return this.repository.save(dto.getEntity()).getId();
     }
 
-    public Set<OrderExternalDTO> findBySupplier(Long supplierId) {
+    public Set<OrderExternalGetDTO> findBySupplier(Long supplierId) {
         return this.repository.findBySupplier(new Supplier(supplierId)).stream()
-                .map(OrderExternalDTO::new).collect(Collectors.toSet());
+                .map(OrderExternalGetDTO::new).collect(Collectors.toSet());
     }
 
 }

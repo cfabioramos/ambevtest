@@ -1,6 +1,6 @@
 package com.ambev.test.order;
 
-import com.ambev.test.order.dto.OrderExternalDTO;
+import com.ambev.test.order.dto.OrderExternalGetDTO;
 import com.ambev.test.order.model.OrderExtProducts;
 import com.ambev.test.order.model.OrderExternal;
 import com.ambev.test.order.model.Product;
@@ -142,7 +142,7 @@ public class InitializationComponent {
 
             // fetch by Supplier
             log.info("Orders found from Supplier(1L):");
-            Set<OrderExternalDTO> ordersExtDTO = orderExternalService.findBySupplier(1L);
+            Set<OrderExternalGetDTO> ordersExtDTO = orderExternalService.findBySupplier(1L);
             ordersExtDTO.forEach(orderExt -> {
                 log.info(orderExt.toString());
             });

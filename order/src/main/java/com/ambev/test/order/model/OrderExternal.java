@@ -26,10 +26,19 @@ public class OrderExternal {
 
     protected OrderExternal() {}
 
-    public OrderExternal(String description, Supplier supplier/*, Set<Product> products*/) {
+    public OrderExternal(String description, Supplier supplier) {
         this.description = description;
         this.supplier = supplier;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public OrderExternal(String description, Long supplierID, Set<Long> productsIDs) {
+        this.description = description;
+        this.supplier = new Supplier(supplierID);
+        this.createdAt = LocalDateTime.now();
+        this.orderExtProducts = productsIDs.stream()
+                .map(pId -> new OrderExtProducts(new Product(pId), this))
+                .collect(Collectors.toSet());
     }
 
     public Long getId() {
